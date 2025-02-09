@@ -1,0 +1,94 @@
+{
+  "66ce8153010c6659dd76e1d1": {
+    "username": "StarryEcho",
+    "position": {
+      "x": 9.5,
+      "y": 0,
+      "z": 13,
+      "facing": "FrontRight"
+    }
+  },
+  "642868bc52bd38776f1780f6": {
+    "username": "Gnocchiiii",
+    "position": {
+      "x": 10,
+      "y": 0,
+      "z": 13.5,
+      "facing": "FrontLeft"
+    }
+  },
+  "661c19b0327a5aadb8335dcd": {
+    "username": "_Madlen",
+    "position": {
+      "x": 7.5,
+      "y": 0,
+      "z": 9.5,
+      "facing": "FrontRight"
+    }
+  },
+  "630155e06e86224fbff12c5b": {
+    "username": "ghost._korean",
+    "position": {
+      "x": 12,
+      "y": 0,
+      "z": 10,
+      "facing": "FrontLeft"
+    }
+  },
+  "679dda7eac203eaf0e2c563f": {
+    "username": "Dreamy_Ariaa",
+    "userId": "679dda7eac203eaf0e2c563f",
+    "position": {
+      "x": 3.5,
+      "y": 0,
+      "z": 1
+    },
+    "facing": "FrontRight"
+  },
+  "65ef45a2bff849cc44c8f305": {
+    "username": "asoziaI",
+    "position": {
+      "x": 11.5,
+      "y": 0,
+      "z": 9.5,
+      "facing": "FrontRight"
+    }
+  },
+  "6335d1da68d7e6f6579893fc": {
+    "username": "Lily_384",
+    "position": {
+      "x": 12,
+      "y": 0,
+      "z": 11.5,
+      "facing": "FrontRight"
+    }
+  },
+  "63e2cb523f624a368ad302f5": {
+    "username": "bilalays",
+    "position": {
+      "x": 9,
+      "y": 0,
+      "z": 8,
+      "facing": "FrontRight"
+    }
+  },
+  "674880c61ede9573ceca7ac0": {
+    "username": "TropicSouring",
+    "userId": "674880c61ede9573ceca7ac0",
+    "position": {
+      "x": 3.5,
+      "y": 0,
+      "z": 1
+    },
+    "facing": "FrontRight"
+  },
+  "67565ef64a7a5465578dab81": {
+    "username": "aIecartier",
+    "position": {
+      "x": 10.5,
+      "y": 0,
+      "z": 9.5,
+      "facing": "BackRight"
+    }
+  }
+}
