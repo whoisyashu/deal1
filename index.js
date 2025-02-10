@@ -25,7 +25,9 @@ bot.on('ready', (session) => {
       .catch(e => console.error("[ERROR] Failed to teleport:", e));
 });
 
-
+setInterval(() => {
+    bot.message.send("Du kannst entscheiden welche Musik für eine Woche hier läuft! 🎶\nSpende 50g und du hast freie Wahl 🥳");
+}, 60000); 
 
 //Emote event
 
