@@ -20,7 +20,7 @@ const bot = new Highrise({
 
 bot.on('ready', (session) => {
     console.log("[READY] Bot is ready!".green + ` Session: ${session}`);
-    
+    bot.outfit.change("default").catch(e => console.error(e));
     bot.player.teleport(bot.info.user.id, 11.5, 0, 4.5, Facing.FrontRight)
       .catch(e => console.error("[ERROR] Failed to teleport:", e));
 });
