@@ -501,7 +501,7 @@ bot.on("chatCreate", async (user, message) => {
     if (message === "!assist") {
       bot.message.send(
         "📌Commands Overview:\n" +
-        "🔹 `!help` - help for the Waiter Bot\n" +
+        "🔹 `!summon @username` - Bring the player to you\n" +
         "🔹 `!assistemote` - Learn about emote assist\n" +
         "🔹 `!assistgames` - Get help with Rock-Paper-Scissors (RPS)\n" +
         "🔹 `!goto @username` - Teleport to user\n"
@@ -557,6 +557,41 @@ bot.on("roomModerate", (moderator_id, target_id, action, duration) => {
     // Log the moderation event to the console.
     console.log(`[MODERATION]: ${moderator_id} - ${target_id} - ${action} - ${duration}`);
 });
-
+bot.on("chatCreate", async (user, message) => {
+  // Check if the message starts with "!summon "
+  if (message.startsWith("!summon ")) {
+    // Ensure only the bot owner can use the command
+    if (user.id !== bot.info.owner.id) {
+      bot.chat("Du bist nicht berechtigt, diesen Befehl zu verwenden.");
+      return;
+    }
+    
+    // Extract the target username from the message
+    const targetUsername = message.split(" ")[1];
+    if (!targetUsername) {
+      bot.chat("Verwendung: !summon @Benutzername");
+      return;
+    }
+    
+    try {
+      // Get the list of players in the room
+      const players = await bot.room.players.get();
+      
+      // Find the target player by username
+      const targetPlayer = players.find(p => p.username === targetUsername.replace("@", ""));
+      if (!targetPlayer) {
+        bot.chat("Spieler wurde im Raum nicht gefunden.");
+        return;
+      }
+      
+      // Teleport the target player
+      await bot.player.teleport(targetPlayer.id, 1, 0, 0, Facing.FrontLeft);
+      bot.chat(`${targetUsername} wurde erfolgreich beschworen.");
+    } catch (e) {
+      console.error(e);
+      bot.chat("Beim Beschwören des Spielers ist ein Fehler aufgetreten.");
+    }
+  }
+});
 
 bot.login(token,room);
