@@ -402,7 +402,8 @@ bot.on("chatCreate",async(user,message)=>{
             .catch(e => console.error(`[ERROR] Failed to perform emote:`, e));
   
           // Send welcome message
-          bot.message.send(`Welcome to the room, ${user.username}!`);
+          bot.message.send(`Willkommen in Alfys Bar🐹 @${user.username} ! 
+Wir wünschen dir Viel Spaß und ein Angenehmes Erlebnis🍹`);
   
           // Update the player's coordinates in playerData.json
           const updatedData = {
