@@ -500,8 +500,7 @@ bot.on("chatCreate", (user, message) => {
 bot.on("chatCreate", async (user, message) => {
     if (message === "!assist") {
       bot.message.send(
-        "📌Commands Overview:\n" +
-        "🔹 `!summon @username` - Bring the player to you\n" +
+        "📌Commands Overview:\n"+
         "🔹 `!assistemote` - Learn about emote assist\n" +
         "🔹 `!assistgames` - Get help with Rock-Paper-Scissors (RPS)\n" +
         "🔹 `!goto @username` - Teleport to user\n"
