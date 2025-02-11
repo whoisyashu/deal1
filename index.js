@@ -1,7 +1,7 @@
 const { Highrise, Events, Emotes} = require('highrise.sdk.dev');
 const { Facing } = require("highrise.sdk.dev");
 const { Reactions } = require("highrise.sdk.dev");
-const token = "197ac99bbee7a7d755ff4c8f96cad93260de4356fdf5346492402c5636a25df8";
+const token = "85898542c4a8abdba54c8b3418f430f817a512fb361852d56a40019bf3e4e2b4";
 const room = "64e36c007fa97b38f87ea6a5";
 const bot = new Highrise({
     Events: [
