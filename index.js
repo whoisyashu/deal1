@@ -167,101 +167,7 @@ bot.on("chatCreate", async (user, message) => {
     }
   }
 });
-const mods = ["642868bc52bd38776f1780f6","66ce8153010c6659dd76e1d1","630155e06e86224fbff12c5b"];
 
-bot.on("chatCreate", async (user, message) => { 
-    const args = message.split(" ");
-    const command = args[0].toLowerCase();
-
-    if (command === "!mods") {
-        if (mods.length === 0) {
-            bot.message.send("👥 No moderators assigned yet.");
-        } else {
-            bot.message.send(`👑 Moderators: ${mods.map(id => `ID: ${id}`).join(", ")}`);
-        }
-        return;
-    }
-
-    if (command === "!add" && args[1] === "mod") {
-        if (bot.info.owner.id !== user.id) {
-            bot.message.send("❌ You are not the bot owner!");
-            return;
-        }
-
-        const targetUsername = args[2]?.replace("@", ""); // Remove '@' from mention
-        if (!targetUsername) {
-            bot.message.send("⚠️ Please mention a username: `!add mod @username`");
-            return;
-        }
-
-        // Get all players in the room
-        bot.room.players.get().then(players => {
-            // Find the target user in the room
-            const targetPlayer = players.find(([playerInfo]) => playerInfo.username === targetUsername);
-
-            if (!targetPlayer) {
-                bot.message.send(`❌ @${targetUsername} is not in the room!`);
-                return;
-            }
-
-            const targetUserId = targetPlayer[0].id; // Extract user ID
-
-            if (mods.includes(targetUserId)) {
-                bot.message.send(`⚠️ @${targetUsername} is already a moderator.`);
-                return;
-            }
-
-            mods.push(targetUserId);
-            bot.message.send(`✅ @${targetUsername} has been added as a moderator!`);
-        }).catch(e => {
-            console.error("Error fetching players:", e);
-            bot.message.send("⚠️ Failed to retrieve players in the room.");
-        });
-
-        return;
-    }
-
-    if (command === "!remove" && args[1] === "mod") {
-        if (bot.info.owner.id !== user.id) {
-            bot.message.send("❌ You are not the bot owner!");
-            return;
-        }
-
-        const targetUsername = args[2]?.replace("@", ""); // Remove '@' from mention
-        if (!targetUsername) {
-            bot.message.send("⚠️ Please mention a username: `!remove mod @username`");
-            return;
-        }
-
-        // Get all players in the room
-        bot.room.players.get().then(players => {
-            // Find the target user in the room
-            const targetPlayer = players.find(([playerInfo]) => playerInfo.username === targetUsername);
-
-            if (!targetPlayer) {
-                bot.message.send(`❌ @${targetUsername} is not in the room!`);
-                return;
-            }
-
-            const targetUserId = targetPlayer[0].id; // Extract user ID
-
-            if (!mods.includes(targetUserId)) {
-                bot.message.send(`⚠️ @${targetUsername} is not a moderator.`);
-                return;
-            }
-
-            // Remove from the mod list
-            const index = mods.indexOf(targetUserId);
-            mods.splice(index, 1);
-            bot.message.send(`❌ @${targetUsername} has been removed as a moderator.`);
-        }).catch(e => {
-            console.error("Error fetching players:", e);
-            bot.message.send("⚠️ Failed to retrieve players in the room.");
-        });
-
-        return;
-    }
-});
 
 bot.on("chatCreate",async(user,message)=>{
     if(message.startsWith("!floor")){
@@ -272,16 +178,34 @@ bot.on("chatCreate",async(user,message)=>{
             bot.player.teleport(user.id, 12.5, 14.25, 5.5, Facing.FrontLeft);}
         else if(targetfloor === "0"){
             bot.player.teleport(user.id, 12.5, 0, 9.5, Facing.FrontLeft);
-        }else if(targetfloor==="mod"){
-            if(mods.includes(user.id) ){
-                bot.player.teleport(user.id, 16.5, 15, 23.5, Facing.FrontLeft);
-            }else{
-                bot.message.send("You are not the moderator of the room");
-            }
         }
         }
-    })
+    });
 
+bot.on("chatCreate", async (user, message) => {
+    const args = message.split(" ");
+    
+    if (args[0] === "!teleport" && args[1] === "mod" && args[2].startsWith("@")) {
+      if (user.id !== bot.info.owner.id) {
+        return bot.message.send("You are not authorized to use this command.");
+      }
+  
+      const targetUsername = args[2].substring(1); // Remove '@' from username
+  
+      try {
+        const targetId = await bot.room.players.id(targetUsername);
+        if (!targetId) {
+          return bot.message.send("User not found.");
+        }
+  
+        await bot.player.teleport(targetId,16.5, 15, 23.5, Facing.FrontLeft);
+        bot.message.send(`Successfully teleported ${targetUsername}.`);
+      } catch (e) {
+        console.error(e);
+        bot.message.send("An error occurred while teleporting.");
+      }
+    }
+  });
 
 //rps game
 
@@ -520,6 +444,8 @@ bot.on("chatCreate", async (user, message) => {
       bot.message.send(
         "📌Commands Overview:\n"+
         "🔹 `!assistemote` - Learn about emote assist\n" +
+        "🔹 `!teleport mod @username` - Teleport mod to the mod section\n" +
+        "🔹 `!floor number` - Teleport to the desired floor\n" +
         "🔹 `!assistgames` - Get help with Rock-Paper-Scissors (RPS)\n" +
         "🔹 `!goto @username` - Teleport to user\n"
       );
