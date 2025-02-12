@@ -27,7 +27,7 @@ bot.on('ready', (session) => {
 
 setInterval(() => {
     bot.message.send("Du kannst entscheiden welche Musik für eine Woche hier läuft! 🎶\nSpende 50g und du hast freie Wahl 🥳");
-}, 60000); 
+}, 120000); 
 
 //Emote event
 
@@ -95,6 +95,7 @@ const emotes = {
 const emotePages = Math.ceil(Object.keys(emotes).length / 7);
 
 bot.on("chatCreate", async (user, message) => {
+  if(user.id === bot.info.user.id) return;
   const args = message.toLowerCase().split(" "); // Convert input to lowercase
   const command = args[0];
   const emoteName = args.slice(1).join(" ");
@@ -170,6 +171,7 @@ bot.on("chatCreate", async (user, message) => {
 
 
 bot.on("chatCreate",async(user,message)=>{
+    if(user.id === bot.info.user.id) return;
     if(message.startsWith("!floor")){
         const targetfloor = message.split(" ")[1];
         if(targetfloor === "2"){
@@ -183,11 +185,13 @@ bot.on("chatCreate",async(user,message)=>{
     });
 
 bot.on("chatCreate", async (user, message) => {
+    if(user.id === bot.info.user.id) return;
     const args = message.split(" ");
     
     if (args[0] === "!teleport" && args[1] === "mod" && args[2].startsWith("@")) {
       if (user.id !== bot.info.owner.id) {
-        return bot.message.send("You are not authorized to use this command.");
+        bot.message.send("You are not authorized to use this command.");
+          return;
       }
   
       const targetUsername = args[2].substring(1); // Remove '@' from username
@@ -195,7 +199,8 @@ bot.on("chatCreate", async (user, message) => {
       try {
         const targetId = await bot.room.players.id(targetUsername);
         if (!targetId) {
-          return bot.message.send("User not found.");
+          bot.message.send("User not found.");
+            return;
         }
   
         await bot.player.teleport(targetId,16.5, 15, 23.5, Facing.FrontLeft);
@@ -203,80 +208,6 @@ bot.on("chatCreate", async (user, message) => {
       } catch (e) {
         console.error(e);
         bot.message.send("An error occurred while teleporting.");
-      }
-    }
-  });
-
-//rps game
-
-  bot.on("chatCreate", async (user, message) => {
-    if (message.startsWith("!rps")) {
-      const userChoice = message.split(" ")[1]; // Get the user's choice
-  
-      // Validate the user's choice
-      if (!['rock', 'paper', 'scissors'].includes(userChoice)) {
-        return bot.message.send("Please choose rock, paper, or scissors.");
-      }
-  
-      // Generate the bot's random choice
-      const choices = ['rock', 'paper', 'scissors'];
-      const botChoice = choices[Math.floor(Math.random() * choices.length)];
-  
-      // Determine the outcome of the game
-      let result;
-      if (userChoice === botChoice) {
-        result = "It's a tie!";
-      } else if (
-        (userChoice === 'rock' && botChoice === 'scissors') ||
-        (userChoice === 'scissors' && botChoice === 'paper') ||
-        (userChoice === 'paper' && botChoice === 'rock')
-      ) {
-        result = "You win!";
-      } else {
-        result = "You lose!";
-      }
-  
-      // Send the bot's choice and the result
-      bot.message.send(`You chose ${userChoice}. I chose ${botChoice}. ${result}`);
-    }
-  });
-  bot.on("chatCreate", async (user, message) => {
-    if (message.startsWith("!assistgame")) {
-      // Extract the game name
-      const gameName = message.split(" ")[1];
-  
-      // Ensure gameName is provided and check if it's valid
-      if (!gameName) {
-        bot.message.send("Please specify the game you need help with. Example: `!assistgame rps`");
-        return;
-      }
-  
-      let assistanceMessagePart1 = "";
-      let assistanceMessagePart2 = "";
-  
-      // Provide brief assistance based on the game name
-      switch (gameName.toLowerCase()) {
-        case "rps":
-          assistanceMessagePart1 = `
-            **Rock-Paper-Scissors:**
-            1. Type \`!rps\` to start.
-            2. Choose: rock, paper, or scissors.
-          `;
-          assistanceMessagePart2 = `
-            3. The bot picks a choice, and the winner is determined by:
-               - Rock > Scissors, Scissors > Paper, Paper > Rock.
-          `;
-          break;
-        default:
-          assistanceMessagePart1 = "I don't recognize that game. Try `!assistgame rps`.";
-      }
-  
-      // Send the first part of the assistance message
-      bot.message.send(assistanceMessagePart1).catch(e => console.error(e));
-  
-      // Send the second part (if applicable)
-      if (assistanceMessagePart2) {
-        bot.message.send(assistanceMessagePart2).catch(e => console.error(e));
       }
     }
   });
@@ -402,6 +333,7 @@ function loadPlayerData() {
 
 // Listen to chat messages
 bot.on("chatCreate", (user, message) => {
+    if(user.id === bot.info.user.id) return;
   // If the message is "!goto @username"
   if (message.startsWith("!goto @")) {
     // Extract the target username from the message
@@ -440,19 +372,20 @@ bot.on("chatCreate", (user, message) => {
   }
 });
 bot.on("chatCreate", async (user, message) => {
+    if(user.id === bot.info.user.id) return;
     if (message === "!assist") {
       bot.message.send(
         "📌Commands Overview:\n"+
         "🔹 `!assistemote` - Learn about emote assist\n" +
         "🔹 `!teleport mod @username` - Teleport mod to the mod section\n" +
         "🔹 `!floor number` - Teleport to the desired floor\n" +
-        "🔹 `!assistgames` - Get help with Rock-Paper-Scissors (RPS)\n" +
         "🔹 `!goto @username` - Teleport to user\n"
       );
     }
 });
 
 bot.on("chatCreate", async (user, message) => { 
+    if(user.id === bot.info.user.id) return;
     const args = message.split(" ");
     const command = args[0].toLowerCase();
 
